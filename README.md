@@ -1,2 +1,2 @@
 # fb-bullet
-Experimental bullet management system for bullet hell type games
+Experimental bullet management system for bullet hell type games written in FreeBasic.
