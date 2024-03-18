@@ -55,12 +55,16 @@ type BulletEmitParams
 end type
 
 type BulletEmitter
+  declare destructor()
+  
   declare sub emit( as any ptr, as double )
   declare sub add( as BulletEmitFunc, as BulletManager ptr, as double )
   
   as Vec2 pos, dir
   as BulletEmitParams params( any )
 end type
+
+destructor BulletEmitter() : end destructor
 
 sub BulletEmitter.add( emitFunc as BulletEmitFunc, bm as BulletManager ptr, freq as double )
   redim preserve params( 0 to ubound( params ) + 1 )
@@ -107,7 +111,7 @@ sub emit_linear( owner as any ptr, ctx as any ptr, p as any ptr, dt as double )
   
   with addBullet( *cast( BulletEmitParams ptr, p )->manager )
     .pos = e->pos
-    .vel = e->dir * 50
+    .vel = e->dir * 350
     .r = 3
   end with
 end sub
@@ -115,15 +119,17 @@ end sub
 sub emit_circular( owner as any ptr, ctx as any ptr, p as any ptr, dt as double )
   var e = cast( BulletEmitter ptr, owner )
   var d = e->dir
+  dim as long num = 5
+  dim as single ang = 360.0 / num
   
-  for i as integer = 1 to 12
+  for i as integer = 1 to num
     with addBullet( *cast( BulletEmitParams ptr, p )->manager )
       .pos = e->pos
       .vel = d * 200
       .r = 4
     end with
     
-    d.rotate( rad( 30 ) )
+    d.rotate( rad( ang ) )
   next
 end sub
 
